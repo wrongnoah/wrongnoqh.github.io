@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>wrongnoqh</title>
+    <link rel="icon" href="https://avatars.githubusercontent.com/u/193839843?v=4" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0d1117;
+            --bg-secondary: #161b22;
+            --bg-card: #1c2128;
+            --text-primary: #f0f6fc;
+            --text-secondary: #b1bac4;
+            --text-muted: #7d8590;
+            --border-color: #30363d;
+            --hover-bg: #262c36;
+            --accent: #9146ff;
+            --accent-hover: #772ce8;
+            --accent-light: rgba(145, 70, 255, 0.1);
+            --success: #00f5c4;
+            --warning: #f59e0b;
+            --error: #ef4444;
+        }
+        [data-theme="light"] {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f9f9fb;
+            --bg-card: #ffffff;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #94a3b8;
+            --border-color: #e2e8f0;
+            --hover-bg: #f8f9ff;
+            --accent: #9146ff;
+            --accent-hover: #772ce8;
+            --accent-light: rgba(145, 70, 255, 0.05);
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg-primary);
+            min-height: 100vh;
+            color: var(--text-primary);
+            font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 80px;
+            background: var(--bg-primary);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2rem;
+            z-index: 1000;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .logo-img {
+            width: 56px;
+            height: 56px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
+        }
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .tools-dropdown {
+            position: relative;
+        }
+        .tools-btn, .theme-btn {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 8px 16px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+        .tools-btn:hover, .theme-btn:hover {
+            background: var(--hover-bg);
+            border-color: var(--accent);
+            box-shadow: 0 0 0 1px var(--accent-light);
+        }
+        .tools-menu {
+            position: absolute;
+            top: calc(100% + 8px);
+            right: 0;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            min-width: 200px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-8px);
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 10px 38px -10px rgba(22, 23, 24, 0.35), 0 10px 20px -15px rgba(22, 23, 24, 0.2);
+        }
+        .tools-dropdown:hover .tools-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .tools-menu a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background-color 0.2s ease;
+        }
+        .tools-menu a:first-child {
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+        }
+        .tools-menu a:last-child {
+            border-bottom-left-radius: 12px;
+            border-bottom-right-radius: 12px;
+        }
+        .tools-menu a:hover {
+            background: var(--hover-bg);
+        }
+        .icon {
+            width: 16px;
+            height: 16px;
+            fill: currentColor;
+        }
+        /* Main Content */
+        .main {
+            padding-top: 120px;
+            padding-bottom: 80px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 800px;
+            width: 100%;
+            padding: 0 2rem;
+        }
+        .hero {
+            text-align: center;
+            margin-bottom: 64px;
+        }
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+            letter-spacing: -0.04em;
+            line-height: 1.1;
+        }
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+            margin-bottom: 32px;
+            line-height: 1.6;
+        }
+        /* Links Grid */
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+            margin-bottom: 64px;
+        }
+        .link-card {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 20px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            text-decoration: none;
+            color: var(--text-primary);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        .link-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(145, 70, 255, 0.12), 
+                        0 0 20px rgba(145, 70, 255, 0.15),
+                        0 0 40px rgba(145, 70, 255, 0.08);
+        }
+        .link-icon {
+            width: 24px;
+            height: 24px;
+            fill: var(--text-secondary);
+            transition: all 0.3s ease;
+        }
+        .link-content {
+            flex: 1;
+        }
+        .link-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .link-description {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+        /* Enhanced hover colors with glow */
+        .twitch-link:hover { 
+            border-color: #9146FF; 
+            box-shadow: 0 8px 25px rgba(145, 70, 255, 0.25),
+                        0 0 30px rgba(145, 70, 255, 0.3),
+                        0 0 50px rgba(145, 70, 255, 0.15);
+        }
+        .twitch-link:hover .link-icon { fill: #9146FF; filter: drop-shadow(0 0 8px #9146FF); }
+        .twitter-link:hover { 
+            border-color: #1DA1F2; 
+            box-shadow: 0 8px 25px rgba(29, 161, 242, 0.25),
+                        0 0 30px rgba(29, 161, 242, 0.3),
+                        0 0 50px rgba(29, 161, 242, 0.15);
+        }
+        .twitter-link:hover .link-icon { fill: #1DA1F2; filter: drop-shadow(0 0 8px #1DA1F2); }
+        .youtube-link:hover { 
+            border-color: #FF0000; 
+            box-shadow: 0 8px 25px rgba(255, 0, 0, 0.25),
+                        0 0 30px rgba(255, 0, 0, 0.3),
+                        0 0 50px rgba(255, 0, 0, 0.15);
+        }
+        .youtube-link:hover .link-icon { fill: #FF0000; filter: drop-shadow(0 0 8px #FF0000); }
+        .steam-link:hover { 
+            border-color: #ffffff; 
+            box-shadow: 0 8px 25px rgba(255, 255, 255, 0.25),
+                        0 0 30px rgba(255, 255, 255, 0.3),
+                        0 0 50px rgba(255, 255, 255, 0.15);
+        }
+        .steam-link:hover .link-icon { fill: #ffffff; filter: drop-shadow(0 0 8px #ffffff); }
+        .mod-link:hover { 
+            border-color: #00f5c4; 
+            box-shadow: 0 8px 25px rgba(0, 245, 196, 0.25),
+                        0 0 30px rgba(0, 245, 196, 0.3),
+                        0 0 50px rgba(0, 245, 196, 0.15);
+        }
+        .mod-link:hover .link-icon { fill: var(--success); filter: drop-shadow(0 0 8px #00f5c4); }
+        .bot-link:hover { 
+            border-color: var(--accent); 
+            box-shadow: 0 8px 25px rgba(145, 70, 255, 0.25),
+                        0 0 30px rgba(145, 70, 255, 0.3),
+                        0 0 50px rgba(145, 70, 255, 0.15);
+        }
+        .bot-link:hover .link-icon { fill: var(--accent); filter: drop-shadow(0 0 8px #9146FF); }
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 40px 0;
+            border-top: 1px solid var(--border-color);
+        }
+        .footer-text {
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header {
+                padding: 0 1rem;
+            }
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+            .container {
+                padding: 0 1rem;
+            }
+            .links-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            .tools-menu {
+                right: -50px;
+            }
+        }
+        @media (max-width: 480px) {
+            .header-controls {
+                gap: 8px;
+            }
+            .tools-btn, .theme-btn {
+                padding: 8px 12px;
+                font-size: 13px;
+            }
+            .hero-title {
+                font-size: 2rem;
+            }
+            .main {
+                padding-top: 100px;
+            }
+        }
+        /* Animation */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .hero { animation-delay: 0.1s; }
+        .links-grid { animation-delay: 0.2s; }
+        .footer { animation-delay: 0.3s; }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo-section">
+            <img src="https://avatars.githubusercontent.com/u/193839843?v=4" alt="wrongnoah" class="logo-img">
+            <div class="logo-text"> </div>
+        </div>
+        <div class="header-controls">
+            <div class="tools-dropdown">
+                <button class="tools-btn">
+                    <svg class="icon" viewBox="0 0 24 24">
+                        <path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                        <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    </svg>
+                    Tools
+                </button>
+                <div class="tools-menu">
+                    <a href="https://tv.supa.sh/logs" target="_blank">
+                        <svg class="icon" viewBox="0 0 24 24">
+                            <path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.89 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11z"/>
+                            <path d="M8 12h8v2H8v-2zm0 4h5v2H8v-2zm0-8h3v2H8V8z"/>
+                        </svg>
+                        Chat Logs
+                    </a>
+                    <a href="https://tools.2807.eu/" target="_blank">
+                        <svg class="icon" viewBox="0 0 24 24">
+                            <path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                        </svg>
+                        Twitch Tools
+                    </a>
+                    <a href="https://vanity.zonian.dev/" target="_blank">
+                        <svg class="icon" viewBox="0 0 24 24">
+                            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        Vanity
+                    </a>
+                </div>
+            </div>
+            <button class="theme-btn" onclick="toggleTheme()">
+                <span id="themeIcon">🌙</span>
+            </button>
+        </div>
+    </header>
+    <main class="main">
+        <div class="container">
+            <section class="hero fade-in">
+                <h1 class="hero-title">wrongnoah</h1>
+                <p class="hero-subtitle">Also uuh</p>
+            </section>
+            <section class="links-grid fade-in">
+                <a href="https://www.twitch.tv/wrongnoqh" target="_blank" class="link-card twitch-link">
+                    <svg class="link-icon" viewBox="0 0 24 24">
+                        <path d="M2.089 0L.525 4.175v16.694h5.736V24h3.132l3.127-3.132h4.695l6.26-6.258V0H2.089zm2.086 2.085H21.39v11.479l-3.652 3.652H12l-3.127 3.132v-3.132H4.175V2.085z"/>
+                        <rect x="7.826" y="5.739" width="2.087" height="5.217"/>
+                        <rect x="13.043" y="5.739" width="2.087" height="5.217"/>
+                    </svg>
+                    <div class="link-content">
+                        <div class="link-title">Twitch</div>
+                        <div class="link-description">Twitch halt</div>
+                    </div>
+                </a>
+                <a href="https://x.com/wrongnoah" target="_blank" class="link-card twitter-link">
+                    <svg class="link-icon" viewBox="0 0 24 24">
+                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                    </svg>
+                    <div class="link-content">
+                        <div class="link-title">Twitter / X</div>
+                        <div class="link-description">uuh</div>
+                    </div>
+                </a>
+                <a href="https://www.youtube.com/@wrongnoah" target="_blank" class="link-card youtube-link">
+                    <svg class="link-icon" viewBox="0 0 24 24">
+                        <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                    </svg>
+                    <div class="link-content">
+                        <div class="link-title">YouTube</div>
+                        <div class="link-description">Bald 20k</div>
+                    </div>
+                </a>
+                <a href="https://www.streamdatabase.com/twitch/roles/wrongnoqh" target="_blank" class="link-card mod-link">
+                    <svg class="link-icon" viewBox="0 0 24 24">
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                    </svg>
+                    <div class="link-content">
+                        <div class="link-title">Mod Lookup</div>
+                        <div class="link-description">Moderation statistics</div>
+                    </div>
+                </a>
+            </section>
+            <footer class="footer fade-in">
+                <p class="footer-text">Von tuk7 geklaut also rt komplett</p>
+            </footer>
+        </div>
+    </main>
+    <script>
+        function toggleTheme() {
+            const body = document.body;
+            const themeIcon = document.getElementById('themeIcon');
+            if (body.getAttribute('data-theme') === 'light') {
+                body.removeAttribute('data-theme');
+                themeIcon.textContent = '🌙';
+            } else {
+                body.setAttribute('data-theme', 'light');
+                themeIcon.textContent = '☀️';
+            }
+        }
+        // Add fade-in animation on load
+        document.addEventListener('DOMContentLoaded', function() {
+            const elements = document.querySelectorAll('.fade-in');
+            elements.forEach((el, index) => {
+                setTimeout(() => {
+                    el.style.animationDelay = (index * 0.1) + 's';
+                }, 100);
+            });
+        });
+    </script>
+</body>
+</html>
