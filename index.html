@@ -8,33 +8,33 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-primary: #0d1117;
-            --bg-secondary: #161b22;
-            --bg-card: #1c2128;
+            --bg-primary: #0a1628;
+            --bg-secondary: #112240;
+            --bg-card: #1a2f4d;
             --text-primary: #f0f6fc;
             --text-secondary: #b1bac4;
             --text-muted: #7d8590;
-            --border-color: #30363d;
-            --hover-bg: #262c36;
-            --accent: #9146ff;
-            --accent-hover: #772ce8;
-            --accent-light: rgba(145, 70, 255, 0.1);
-            --success: #00f5c4;
+            --border-color: #2d4a6d;
+            --hover-bg: #1e3a5f;
+            --accent: #c41e3a;
+            --accent-hover: #9b1829;
+            --accent-light: rgba(196, 30, 58, 0.1);
+            --success: #2d7a3e;
             --warning: #f59e0b;
             --error: #ef4444;
         }
         [data-theme="light"] {
-            --bg-primary: #ffffff;
-            --bg-secondary: #f9f9fb;
+            --bg-primary: #f8f9ff;
+            --bg-secondary: #ffffff;
             --bg-card: #ffffff;
             --text-primary: #0f172a;
             --text-secondary: #475569;
             --text-muted: #94a3b8;
-            --border-color: #e2e8f0;
-            --hover-bg: #f8f9ff;
-            --accent: #9146ff;
-            --accent-hover: #772ce8;
-            --accent-light: rgba(145, 70, 255, 0.05);
+            --border-color: #dbeafe;
+            --hover-bg: #eff6ff;
+            --accent: #c41e3a;
+            --accent-hover: #9b1829;
+            --accent-light: rgba(196, 30, 58, 0.05);
         }
         * {
             margin: 0;
@@ -43,11 +43,13 @@
         }
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: var(--bg-primary);
+            background: linear-gradient(180deg, var(--bg-primary) 0%, #0f1f3a 100%);
             min-height: 100vh;
             color: var(--text-primary);
             font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow-x: hidden;
         }
         /* Header */
         .header {
@@ -181,6 +183,12 @@
             letter-spacing: -0.04em;
             line-height: 1.1;
         }
+        .hero-title::before {
+            content: '🎄 ';
+        }
+        .hero-title::after {
+            content: ' 🎄';
+        }
         .hero-subtitle {
             font-size: 1.25rem;
             color: var(--text-secondary);
@@ -212,9 +220,9 @@
         .link-card:hover {
             border-color: var(--accent);
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(145, 70, 255, 0.12), 
-                        0 0 20px rgba(145, 70, 255, 0.15),
-                        0 0 40px rgba(145, 70, 255, 0.08);
+            box-shadow: 0 8px 25px rgba(196, 30, 58, 0.12), 
+                        0 0 20px rgba(196, 30, 58, 0.15),
+                        0 0 40px rgba(196, 30, 58, 0.08);
         }
         .link-icon {
             width: 24px;
@@ -340,9 +348,58 @@
         .hero { animation-delay: 0.1s; }
         .links-grid { animation-delay: 0.2s; }
         .footer { animation-delay: 0.3s; }
+        
+        /* Christmas Decorations */
+        .snowflake {
+            position: fixed;
+            top: -10px;
+            z-index: 9999;
+            user-select: none;
+            cursor: default;
+            animation: snowfall linear infinite;
+            color: #fff;
+            font-size: 1em;
+            opacity: 0.8;
+        }
+        @keyframes snowfall {
+            0% {
+                transform: translateY(0vh) rotate(0deg);
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0.3;
+            }
+        }
+        .christmas-lights {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            pointer-events: none;
+            z-index: 1001;
+        }
+        .light {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            animation: twinkle 2s infinite;
+        }
+        @keyframes twinkle {
+            0%, 100% { opacity: 1; filter: brightness(1); }
+            50% { opacity: 0.4; filter: brightness(0.6); }
+        }
     </style>
 </head>
 <body>
+    <!-- Christmas Lights -->
+    <div class="christmas-lights" id="lights"></div>
+    
+    <!-- Snowflakes -->
+    <div id="snowflakes"></div>
+    
     <header class="header">
         <div class="logo-section">
             <img src="https://avatars.githubusercontent.com/u/193839843?v=4" alt="wrongnoah" class="logo-img">
@@ -449,7 +506,7 @@
                 </a>
             </section>
             <footer class="footer fade-in">
-                <p class="footer-text">Zerwas die madln</p>
+                <p class="footer-text">Zerwas die madln 🎅</p>
             </footer>
         </div>
     </main>
@@ -465,6 +522,42 @@
                 themeIcon.textContent = '☀️';
             }
         }
+        
+        // Create snowflakes
+        function createSnowflakes() {
+            const snowflakesContainer = document.getElementById('snowflakes');
+            const snowflakeCount = 50;
+            
+            for (let i = 0; i < snowflakeCount; i++) {
+                const snowflake = document.createElement('div');
+                snowflake.classList.add('snowflake');
+                snowflake.textContent = '❄';
+                snowflake.style.left = Math.random() * 100 + '%';
+                snowflake.style.animationDuration = (Math.random() * 3 + 5) + 's';
+                snowflake.style.animationDelay = Math.random() * 5 + 's';
+                snowflake.style.fontSize = (Math.random() * 10 + 10) + 'px';
+                snowflakesContainer.appendChild(snowflake);
+            }
+        }
+        
+        // Create Christmas lights
+        function createLights() {
+            const lightsContainer = document.getElementById('lights');
+            const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff'];
+            const lightCount = 20;
+            
+            for (let i = 0; i < lightCount; i++) {
+                const light = document.createElement('div');
+                light.classList.add('light');
+                light.style.left = (i * (100 / lightCount)) + '%';
+                light.style.top = Math.sin(i * 0.5) * 30 + 40 + 'px';
+                light.style.backgroundColor = colors[i % colors.length];
+                light.style.boxShadow = `0 0 10px ${colors[i % colors.length]}`;
+                light.style.animationDelay = (i * 0.1) + 's';
+                lightsContainer.appendChild(light);
+            }
+        }
+        
         // Add fade-in animation on load
         document.addEventListener('DOMContentLoaded', function() {
             const elements = document.querySelectorAll('.fade-in');
@@ -473,7 +566,10 @@
                     el.style.animationDelay = (index * 0.1) + 's';
                 }, 100);
             });
+            
+            createSnowflakes();
+            createLights();
         });
     </script>
 </body>
-</html> 
+</html>
